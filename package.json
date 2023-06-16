@@ -1,0 +1,26 @@
+{
+  "name": "helix-sphere-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx serve",
+    "build": "servez -p 8080 --ssl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ordinarykids/helix-sphere-demo.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ordinarykids/helix-sphere-demo/issues"
+  },
+  "homepage": "https://github.com/ordinarykids/helix-sphere-demo#readme",
+  "dependencies": {
+    "serve": "^14.2.0",
+    "servez": "^1.14.2",
+    "three": "^0.152.2"
+  }
+}
