@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>HELIX - Proto</title>
+    <title>HELIX - Protoype</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <!-- <link type="text/css" rel="stylesheet" href="main.css"> -->
@@ -66,7 +66,7 @@
 
         // camera
 
-        camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+        camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 50);
         camera.position.set(15, 20, 30);
         
         scene.add(camera);
@@ -102,6 +102,7 @@
 
         const texture4 = new THREE.TextureLoader().load('assets/diamond.png');
 
+
         //texture.colorSpace = THREE.SRGBColorSpace;
 
 
@@ -118,8 +119,9 @@
         // if normal and uv attributes are not removed, mergeVertices() can't consolidate indentical vertices with different normal/uv data
 
         sphereGeometry.deleteAttribute('normal');
+      
         sphereGeometry.deleteAttribute('uv');
-
+     
         sphereGeometry = BufferGeometryUtils.mergeVertices(sphereGeometry);
 
         const vertices = [];

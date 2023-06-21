@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<title>HELIX - Protoype</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<!-- <link type="text/css" rel="stylesheet" href="main.css"> -->
+	<style>
+		body {
+			font-family: Monospace;
+			/* background-color: red; */
+			margin: 0px;
+			overflow: hidden;
+		}
+	</style>
+	<script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body>
+
+
+	<div class=" flex flex-col h-screen justify-center items-center">
+
+		<div className="bg-pink-500 p-2 w-full text-center" id="HelixAnimation"></div>
+	</div>
+
+
+	<script type="importmap">
+				{
+								"imports": {
+												"three": "../build/three.module.min.js",
+												"three/addons/": "./jsm/"
+								}
+				}
+</script>
+
+	<script type="module">
+
+		import * as THREE from 'three';
+
+		import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+		import { ConvexGeometry } from 'three/addons/geometries/ConvexGeometry.js';
+		import * as BufferGeometryUtils from 'three/addons/utils/BufferGeometryUtils.js';
+
+		let group, camera, scene, renderer;
+
+		// Define wiframe colors
+		const wireframeWireColor = '0xCCCCCC';
+
+
+
+		init();
+		animate();
+
+		function init() {
+
+			scene = new THREE.Scene();
+
+			renderer = new THREE.WebGLRenderer({ antialias: true });
+			renderer.setPixelRatio(window.devicePixelRatio);
+			renderer.setClearColor(0xffffff);
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			// document.body.appendChild(renderer.domElement);
+			document.getElementById('HelixAnimation').appendChild(renderer.domElement);
+
+			// camera
+
+			camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 50);
+			camera.position.set(15, 20, 30);
+
+			scene.add(camera);
+
+			// controls
+
+			const controls = new OrbitControls(camera, renderer.domElement);
+			controls.minDistance = 40;
+			controls.maxDistance = 40;
+			controls.maxPolarAngle = Math.PI / 2;
+
+			// ambient light
+
+			scene.add(new THREE.AmbientLight(0xffffff));
+
+			loadBARD()
+
+			
+
+			window.addEventListener('resize', onWindowResize);
+
+		}
+
+		function onWindowResize() {
+
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize(window.innerWidth, window.innerHeight);
+
+		}
+
+
+		function loadBARD() {
+
+
+			// Create a sphere geometry.
+			const geometry = new THREE.SphereGeometry(1, 32, 16);
+
+			// Create a wireframe geometry from the sphere geometry.
+			const wireframe = new THREE.WireframeGeometry(geometry);
+
+			// Create a material for the wireframe.
+			const material = new THREE.LineBasicMaterial({
+				color: 0xd3d3d3,
+			});
+
+			// Create a line segments object from the wireframe geometry and material.
+			const lines = new THREE.LineSegments(wireframe, material);
+
+			// Create a scene and add the line segments object to it.
+			const scene = new THREE.Scene();
+			scene.add(lines);
+
+			// Create a camera and position it.
+			const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 100);
+			camera.position.z = 5;
+
+			// Create a renderer and render the scene.
+			const renderer = new THREE.WebGLRenderer();
+			renderer.setSize(window.innerWidth, window.innerHeight);
+			document.body.appendChild(renderer.domElement);
+
+			renderer.render(scene, camera);
+
+			// Add shapes on the vertices of the wireframe.
+			for (const vertex of wireframe.attributes.position.array) {
+				//const shape = new THREE.Sphere(0.1, 4, 4);
+				//console.log(shape)
+				const shape = new THREE.Triangle(new THREE.Vector3(0, 0, 0), new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 1, 0));
+				console.log(shape)
+				shape.position.copy(shape);
+				scene.add(shape);
+			}
+
+
+			
+		}
+		function animate() {
+
+			requestAnimationFrame(animate);
+
+		//	group.rotation.y += 0.0009;
+
+			render();
+
+		}
+
+		function render() {
+
+			renderer.render(scene, camera);
+
+		}
+
+
+
+
+	</script>
+
+</body>
+
+</html>
